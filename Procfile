@@ -1,1 +1,1 @@
-web: uvicorn wsgi:app
+web: python wsgi.py
