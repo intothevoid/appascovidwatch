@@ -77,8 +77,10 @@ async function loadACTNumbers() {
 
 async function loadNumbers(state) {
   try {
-    const response = await fetch(`${baseURL}/${state}`);
-    if (!response.ok) {
+    const options = { method: "GET", headers: { Accept: "application/json" } };
+
+    const response = await fetch(`${baseURL}/${state}`, options);
+    if (!response || !response.ok) {
       throw new Error(`HTTP error: ${response.status}`);
     }
 
