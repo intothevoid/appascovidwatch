@@ -77,7 +77,7 @@ async function loadACTNumbers() {
 
 async function loadNumbers(state) {
   try {
-    const options = { method: "GET", headers: { "Content-Type": "application/json"}};
+    const options = { method: "GET", mode: "no-cors", headers: { "Content-Type": "application/json"}};
 
     const response = await fetch(`${baseURL}/${state}`, options);
     if (!response || !response.ok) {
