@@ -34,36 +34,42 @@ function registerListeners() {
 
 async function loadSANumbers() {
   console.log("SA was clicked!");
+  stateNameEl.innerText = "Appa eej thinking...";
   respObject = await loadNumbers("sa");
   populateNumbersTable(respObject);
 }
 
 async function loadWANumbers() {
   console.log("WA was clicked!");
+  stateNameEl.innerText = "Appa eej thinking...";
   respObject = await loadNumbers("wa");
   populateNumbersTable(respObject);
 }
 
 async function loadVICNumbers() {
   console.log("VIC was clicked!");
+  stateNameEl.innerText = "Appa eej thinking...";
   respObject = await loadNumbers("vic");
   populateNumbersTable(respObject);
 }
 
 async function loadNSWNumbers() {
   console.log("NSW was clicked!");
+  stateNameEl.innerText = "Appa eej thinking...";
   respObject = await loadNumbers("nsw");
   populateNumbersTable(respObject);
 }
 
 async function loadTASNumbers() {
   console.log("TAS was clicked!");
+  stateNameEl.innerText = "Appa eej thinking...";
   respObject = await loadNumbers("tas");
   populateNumbersTable(respObject);
 }
 
 async function loadNTNumbers() {
   console.log("NT was clicked!");
+  stateNameEl.innerText = "Appa eej thinking...";
   respObject = await loadNumbers("nt");
   populateNumbersTable(respObject);
 }
@@ -82,6 +88,9 @@ async function loadNumbers(state) {
       headers: { "Content-Type": "application/json" },
     };
 
+    // Start by clearing existing table's body
+    clearTableBody();
+
     const response = await fetch(`${baseURL}/${state}`, options);
     if (!response || !response.ok) {
       throw new Error(`HTTP error: ${response.status}`);
@@ -93,11 +102,13 @@ async function loadNumbers(state) {
   }
 }
 
-function populateNumbersTable(respObject) {
+function clearTableBody() {
   // clear table body
   numbersTableBodyEl.innerText = "";
   numbersTableBodyEl.innerHTML = "";
+}
 
+function populateNumbersTable(respObject) {
   // set the state name from response
   const stateName = respObject["state"];
   stateNameEl.innerText = stateName;
