@@ -77,7 +77,7 @@ async function loadACTNumbers() {
 
 async function loadNumbers(state) {
   try {
-    const options = { method: "GET", credentials: "same-origin", headers: { "Content-Type": "application/json" } };
+    const options = { method: "GET", headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*"} };
 
     const response = await fetch(`${baseURL}/${state}`, options);
     if (!response || !response.ok) {
