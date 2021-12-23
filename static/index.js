@@ -1,6 +1,6 @@
 // base url
 let portNo = 8000;
-let baseURL = `http://appascovidwatch.herokuapp.com:${portNo}/numbers`;
+let baseURL = `https://appascovidwatch.herokuapp.com/numbers`;
 
 // elements
 let saEl = document.getElementById("saBtn");
