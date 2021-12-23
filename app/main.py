@@ -27,24 +27,18 @@ middleware = [
 ]
 
 app = FastAPI(middleware=middleware)
-
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
-
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Setup the scraper
 covscrape = CovidScraper()
 
-
+# State wise numbers
 @app.get("/numbers/{state}")
 async def get_numbers(state):
     return covscrape.get_covid_numbers(state)
 
 
+# Main index page
 @app.get("/")
 async def get_root():
     return FileResponse("app/index.html")
