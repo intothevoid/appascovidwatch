@@ -143,30 +143,6 @@ function populateNumbersTable(respObject) {
   }
 }
 
-function populateNumbersGraph(respData) {
-  const payload = respData["payload"];
-  let x = [];
-  let y = [];
-
-  for (key in payload) {
-    x.push(key);
-    y.push(payload[key]);
-  }
-
-  Plotly.newPlot(
-    graphEl,
-    [
-      {
-        x: x,
-        y: y,
-      },
-    ],
-    {
-      margin: { t: 0 },
-    }
-  );
-}
-
 function populateNumbersBarGraph(respData) {
   const payload = respData["payload"];
   let x = [];
@@ -190,14 +166,13 @@ function populateNumbersBarGraph(respData) {
   ];
 
   let layout = {
-    title: "Daily Covid Cases",
     xaxis: {
       title: "Date",
     },
     yaxis: {
       title: "No. of Cases",
     },
-    margin: { t: 30 },
+    margin: { t: 50 },
   };
 
   Plotly.newPlot(graphEl, data, layout);
