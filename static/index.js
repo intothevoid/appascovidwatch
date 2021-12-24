@@ -18,12 +18,15 @@ let numbersTableBodyEl = document.getElementById("numbersTableBody");
 let dateLabelEl = document.getElementById("dateLabel");
 let numbersLabelEl = document.getElementById("numbersLabel");
 let stateNameEl = document.getElementById("stateName");
+let graphEl = document.getElementById("graphtest");
 
-// register button clicks
-registerListeners();
+document.addEventListener("DOMContentLoaded", function () {
+  // register button clicks
+  registerListeners();
 
-// load SA values by default
-loadSANumbers();
+  // load SA values by default
+  loadSANumbers();
+});
 
 function registerListeners() {
   saEl.addEventListener("click", loadSANumbers);
@@ -37,49 +40,56 @@ function registerListeners() {
 
 async function loadSANumbers() {
   console.log("SA was clicked!");
-  stateNameEl.innerText = "Appa eej thinking...";
+  stateNameEl.innerText = "Appa thinking...";
   respObject = await loadNumbers("sa");
+  populateNumbersBarGraph(respObject);
   populateNumbersTable(respObject);
 }
 
 async function loadWANumbers() {
   console.log("WA was clicked!");
-  stateNameEl.innerText = "Appa eej thinking...";
+  stateNameEl.innerText = "Appa thinking...";
   respObject = await loadNumbers("wa");
+  populateNumbersBarGraph(respObject);
   populateNumbersTable(respObject);
 }
 
 async function loadVICNumbers() {
   console.log("VIC was clicked!");
-  stateNameEl.innerText = "Appa eej thinking...";
+  stateNameEl.innerText = "Appa thinking...";
   respObject = await loadNumbers("vic");
+  populateNumbersBarGraph(respObject);
   populateNumbersTable(respObject);
 }
 
 async function loadNSWNumbers() {
   console.log("NSW was clicked!");
-  stateNameEl.innerText = "Appa eej thinking...";
+  stateNameEl.innerText = "Appa thinking...";
   respObject = await loadNumbers("nsw");
+  populateNumbersBarGraph(respObject);
   populateNumbersTable(respObject);
 }
 
 async function loadTASNumbers() {
   console.log("TAS was clicked!");
-  stateNameEl.innerText = "Appa eej thinking...";
+  stateNameEl.innerText = "Appa thinking...";
   respObject = await loadNumbers("tas");
+  populateNumbersBarGraph(respObject);
   populateNumbersTable(respObject);
 }
 
 async function loadNTNumbers() {
   console.log("NT was clicked!");
-  stateNameEl.innerText = "Appa eej thinking...";
+  stateNameEl.innerText = "Appa thinking...";
   respObject = await loadNumbers("nt");
+  populateNumbersBarGraph(respObject);
   populateNumbersTable(respObject);
 }
 
 async function loadACTNumbers() {
   console.log("ACT was clicked!");
   respObject = await loadNumbers("act");
+  populateNumbersBarGraph(respObject);
   populateNumbersTable(respObject);
 }
 
@@ -131,4 +141,64 @@ function populateNumbersTable(respObject) {
     row.append(numberEl);
     numbersTableBodyEl.appendChild(row);
   }
+}
+
+function populateNumbersGraph(respData) {
+  const payload = respData["payload"];
+  let x = [];
+  let y = [];
+
+  for (key in payload) {
+    x.push(key);
+    y.push(payload[key]);
+  }
+
+  Plotly.newPlot(
+    graphEl,
+    [
+      {
+        x: x,
+        y: y,
+      },
+    ],
+    {
+      margin: { t: 0 },
+    }
+  );
+}
+
+function populateNumbersBarGraph(respData) {
+  const payload = respData["payload"];
+  let x = [];
+  let y = [];
+
+  for (key in payload) {
+    x.push(key);
+    y.push(payload[key]);
+  }
+
+  // Later dates to the right
+  x.reverse();
+  y.reverse();
+
+  let data = [
+    {
+      x: x,
+      y: y,
+      type: "scatter",
+    },
+  ];
+
+  let layout = {
+    title: "Daily Covid Cases",
+    xaxis: {
+      title: "Date",
+    },
+    yaxis: {
+      title: "No. of Cases",
+    },
+    margin: { t: 30 },
+  };
+
+  Plotly.newPlot(graphEl, data, layout);
 }
