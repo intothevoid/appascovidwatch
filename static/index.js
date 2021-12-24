@@ -1,6 +1,9 @@
 // base url
 let baseURL = `https://appascovidwatch.herokuapp.com/numbers`;
 
+// For local testing
+// let baseURL = `http://127.0.0.1:8000/numbers`;
+
 // elements
 let saEl = document.getElementById("saBtn");
 let waEl = document.getElementById("waBtn");
@@ -81,25 +84,24 @@ async function loadACTNumbers() {
 }
 
 async function loadNumbers(state) {
-  try {
-    const options = {
-      method: "GET",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-    };
+  const options = {
+    method: "GET",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+  };
 
-    // Start by clearing existing table's body
-    clearTableBody();
+  // Start by clearing existing table's body
+  clearTableBody();
 
-    const response = await fetch(`${baseURL}/${state}`, options);
-    if (!response || !response.ok) {
-      throw new Error(`HTTP error: ${response.status}`);
-    }
+  retVal = await fetch(`${baseURL}/${state}`, options)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log(responseJson);
+      return responseJson;
+    })
+    .catch((error) => console.warn(error));
 
-    return await response.json();
-  } catch (e) {
-    console.log("loadNumbers:", e);
-  }
+  return retVal;
 }
 
 function clearTableBody() {

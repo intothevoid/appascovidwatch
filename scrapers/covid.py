@@ -33,11 +33,11 @@ class CovidScraper:
 
             # Extract numbers
             retval["payload"] = self._get_payload(resp)
+            return retval
 
         except Exception as exc:
             retval["exception"] = exc
-
-        return retval
+            return retval
 
     def _get_payload(self, rsp):
         payload = {}
@@ -50,3 +50,8 @@ class CovidScraper:
             payload[item[0].text] = item[1].text
 
         return payload
+
+
+if __name__ == "__main__":
+    scraper = CovidScraper()
+    print(scraper.get_covid_numbers("sa"))
