@@ -1,10 +1,10 @@
 // base url
-// let numbersBaseURL = `https://appascovidwatch.herokuapp.com/numbers`;
-// let summaryBaseURL = `https://appascovidwatch.herokuapp.com/summary`;
+let numbersBaseURL = `https://appascovidwatch.herokuapp.com/numbers`;
+let summaryBaseURL = `https://appascovidwatch.herokuapp.com/summary`;
 
 // For local testing
-let numbersBaseURL = `http://127.0.0.1:8000/numbers`;
-let summaryBaseURL = `http://127.0.0.1:8000/summary`;
+// let numbersBaseURL = `http://127.0.0.1:8000/numbers`;
+// let summaryBaseURL = `http://127.0.0.1:8000/summary`;
 
 // elements
 let saEl = document.getElementById("saBtn");
