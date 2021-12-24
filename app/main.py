@@ -38,6 +38,12 @@ async def get_numbers(state):
     return covscrape.get_covid_numbers(state)
 
 
+# State wise summary
+@app.get("/summary/{state}")
+async def get_summary(state):
+    return covscrape.get_summary(state)
+
+
 # Main index page
 @app.get("/")
 async def get_root():

@@ -2,6 +2,7 @@ from requests_html import HTMLSession
 import json
 
 BASEURL = "https://covidlive.com.au/report/daily-cases"
+SUMMARYURL = "https://covidlive.com.au"
 STATES = {
     "sa": "South Australia",
     "wa": "Western Australia",
@@ -51,7 +52,61 @@ class CovidScraper:
 
         return payload
 
+    def get_summary(self, state: str):
+        retval = {}
+
+        state = state or "sa"  # default to sa
+        retval["state"] = STATES[state]
+
+        try:
+            # Start HTML session and begin scraping BASEURL
+            session = HTMLSession()
+            STATEURL = f"{SUMMARYURL}/{state}"
+
+            resp = session.get(STATEURL)
+            meta = {"code": resp.status_code, "reason": resp.reason}
+            retval["meta"] = meta
+
+            if resp.status_code != 200:
+                return retval
+
+            # Extract numbers
+            retval["payload"] = self._get_summary(resp)
+            return retval
+
+        except Exception as exc:
+            retval["exception"] = exc
+            return retval
+
+    def _get_summary(self, rsp):
+        summary = {}
+
+        category_total = [
+            "New Cases",
+            "Cases",
+            "Doses",
+            "Tests",
+            "Hospitalised",
+            "ICU",
+            "Deaths",
+            "Active",
+            "Last Updated",
+        ]
+        summary_table = rsp.html.find("table.DAILY-SUMMARY")
+        total_col = summary_table[0].find("td.COL2.TOTAL")
+        net_col = summary_table[0].find("td.COL4.NET")
+        data = zip(category_total, total_col, net_col)
+
+        for item in data:
+            category = item[0]  # This is a string
+            total_cnt = item[1].text  # This is type Element
+            new_cnt = item[2].text  # This is type Element
+            summary[category] = {total_cnt: new_cnt}
+
+        return summary
+
 
 if __name__ == "__main__":
     scraper = CovidScraper()
     print(scraper.get_covid_numbers("sa"))
+    print(scraper.get_summary("sa"))

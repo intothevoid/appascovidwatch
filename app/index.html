@@ -38,9 +38,22 @@
       <button id="tasBtn">TAS</button>
       <h4 id="stateName"></h4>
 
-      <div class="container-small" id="graphtest"></div>
-
+      <!-- SUMMARY TABLE -->
       <div class="container-small">
+        <table class="striped-table" id="summaryTable">
+          <thead>
+            <tr>
+              <th id="categoryLabel"></th>
+              <th id="totalLabel"></th>
+              <th id="newLabel"></th>
+            </tr>
+          </thead>
+          <tbody id="summaryTableBody"></tbody>
+        </table>
+      </div>
+
+      <!-- CASE NUMBERS TABLE -->
+      <!-- <div class="container-small">
         <table class="striped-table" id="numbersTable">
           <thead>
             <tr>
@@ -51,7 +64,13 @@
           <tbody id="numbersTableBody"></tbody>
         </table>
       </div>
-    </div>
+    </div> -->
+
+    <!-- GRAPH -->
+    <div class="container-small" id="graphtest"></div>
+
+    <hr style="margin-top: 50px;">
+    <footer style="margin: 10px;">© 2022 Karan Kadam. Made with ❤ in Adelaide, Australia</footer>
 
     <script type="module" src="static/js/plotly-2.8.3.min.js"></script>
     <!-- <script src="https://cdn.plot.ly/plotly-2.8.3.min.js"></script> -->

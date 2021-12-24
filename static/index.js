@@ -1,8 +1,10 @@
 // base url
-let baseURL = `https://appascovidwatch.herokuapp.com/numbers`;
+// let numbersBaseURL = `https://appascovidwatch.herokuapp.com/numbers`;
+// let summaryBaseURL = `https://appascovidwatch.herokuapp.com/summary`;
 
 // For local testing
-// let baseURL = `http://127.0.0.1:8000/numbers`;
+let numbersBaseURL = `http://127.0.0.1:8000/numbers`;
+let summaryBaseURL = `http://127.0.0.1:8000/summary`;
 
 // elements
 let saEl = document.getElementById("saBtn");
@@ -13,10 +15,20 @@ let tasEl = document.getElementById("tasBtn");
 let ntEl = document.getElementById("ntBtn");
 let actEl = document.getElementById("actBtn");
 
-let numbersTableEl = document.getElementById("numbersTable");
-let numbersTableBodyEl = document.getElementById("numbersTableBody");
-let dateLabelEl = document.getElementById("dateLabel");
-let numbersLabelEl = document.getElementById("numbersLabel");
+// numbers table
+// let numbersTableEl = document.getElementById("numbersTable");
+// let numbersTableBodyEl = document.getElementById("numbersTableBody");
+// let dateLabelEl = document.getElementById("dateLabel");
+// let numbersLabelEl = document.getElementById("numbersLabel");
+
+// summary table
+let summaryTableEl = document.getElementById("summaryTable");
+let summaryTableBodyEl = document.getElementById("summaryTableBody");
+let categoryLabelEl = document.getElementById("categoryLabel");
+let totalLabelEl = document.getElementById("totalLabel");
+let newLabelEl = document.getElementById("newLabel");
+
+// other elements
 let stateNameEl = document.getElementById("stateName");
 let graphEl = document.getElementById("graphtest");
 
@@ -25,72 +37,86 @@ document.addEventListener("DOMContentLoaded", function () {
   registerListeners();
 
   // load SA values by default
-  loadSANumbers();
+  loadSADetails();
 });
 
 function registerListeners() {
-  saEl.addEventListener("click", loadSANumbers);
-  waEl.addEventListener("click", loadWANumbers);
-  vicEl.addEventListener("click", loadVICNumbers);
-  nswEl.addEventListener("click", loadNSWNumbers);
-  tasEl.addEventListener("click", loadTASNumbers);
-  ntEl.addEventListener("click", loadNTNumbers);
-  actEl.addEventListener("click", loadACTNumbers);
+  saEl.addEventListener("click", loadSADetails);
+  waEl.addEventListener("click", loadWADetails);
+  vicEl.addEventListener("click", loadVICDetails);
+  nswEl.addEventListener("click", loadNSWDetails);
+  tasEl.addEventListener("click", loadTASDetails);
+  ntEl.addEventListener("click", loadNTDetails);
+  actEl.addEventListener("click", loadACTDetails);
 }
 
-async function loadSANumbers() {
+async function loadSADetails() {
   console.log("SA was clicked!");
   stateNameEl.innerText = "Appa thinking...";
-  respObject = await loadNumbers("sa");
-  populateNumbersBarGraph(respObject);
-  populateNumbersTable(respObject);
+  let numRespObj = await loadNumbers("sa");
+  let sumRespObj = await loadSummary("sa");
+  populateSummaryTable(sumRespObj);
+  populateNumbersBarGraph(numRespObj);
+  // populateNumbersTable(numRespObj);
 }
 
-async function loadWANumbers() {
+async function loadWADetails() {
   console.log("WA was clicked!");
   stateNameEl.innerText = "Appa thinking...";
   respObject = await loadNumbers("wa");
+  let sumRespObj = await loadSummary("wa");
+  populateSummaryTable(sumRespObj);
   populateNumbersBarGraph(respObject);
-  populateNumbersTable(respObject);
+  // populateNumbersTable(respObject);
 }
 
-async function loadVICNumbers() {
+async function loadVICDetails() {
   console.log("VIC was clicked!");
   stateNameEl.innerText = "Appa thinking...";
   respObject = await loadNumbers("vic");
+  let sumRespObj = await loadSummary("vic");
+  populateSummaryTable(sumRespObj);
   populateNumbersBarGraph(respObject);
-  populateNumbersTable(respObject);
+  // populateNumbersTable(respObject);
 }
 
-async function loadNSWNumbers() {
+async function loadNSWDetails() {
   console.log("NSW was clicked!");
   stateNameEl.innerText = "Appa thinking...";
   respObject = await loadNumbers("nsw");
+  let sumRespObj = await loadSummary("nsw");
+  populateSummaryTable(sumRespObj);
   populateNumbersBarGraph(respObject);
-  populateNumbersTable(respObject);
+  // populateNumbersTable(respObject);
 }
 
-async function loadTASNumbers() {
+async function loadTASDetails() {
   console.log("TAS was clicked!");
   stateNameEl.innerText = "Appa thinking...";
   respObject = await loadNumbers("tas");
+  let sumRespObj = await loadSummary("tas");
+  populateSummaryTable(sumRespObj);
   populateNumbersBarGraph(respObject);
-  populateNumbersTable(respObject);
+  // populateNumbersTable(respObject);
 }
 
-async function loadNTNumbers() {
+async function loadNTDetails() {
   console.log("NT was clicked!");
   stateNameEl.innerText = "Appa thinking...";
   respObject = await loadNumbers("nt");
+  let sumRespObj = await loadSummary("nt");
+  populateSummaryTable(sumRespObj);
   populateNumbersBarGraph(respObject);
-  populateNumbersTable(respObject);
+  // populateNumbersTable(respObject);
 }
 
-async function loadACTNumbers() {
+async function loadACTDetails() {
   console.log("ACT was clicked!");
   respObject = await loadNumbers("act");
+  let sumRespObj = await loadSummary("act");
+  populateSummaryTable(sumRespObj);
   populateNumbersBarGraph(respObject);
-  populateNumbersTable(respObject);
+  // populateNumbersTable(respObject);
 }
 
 async function loadNumbers(state) {
@@ -101,9 +127,10 @@ async function loadNumbers(state) {
   };
 
   // Start by clearing existing table's body
-  clearTableBody();
+  // clearNumbersTableBody();
+  clearNumbersGraph();
 
-  retVal = await fetch(`${baseURL}/${state}`, options)
+  retVal = await fetch(`${numbersBaseURL}/${state}`, options)
     .then((response) => response.json())
     .then((responseJson) => {
       console.log(responseJson);
@@ -114,32 +141,99 @@ async function loadNumbers(state) {
   return retVal;
 }
 
-function clearTableBody() {
-  // clear table body
-  numbersTableBodyEl.innerText = "";
-  numbersTableBodyEl.innerHTML = "";
+async function loadSummary(state) {
+  const options = {
+    method: "GET",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+  };
+
+  // Start by clearing existing table's body
+  clearSummaryTableBody();
+
+  retVal = await fetch(`${summaryBaseURL}/${state}`, options)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log(responseJson);
+      return responseJson;
+    })
+    .catch((error) => console.warn(error));
+
+  return retVal;
 }
 
-function populateNumbersTable(respObject) {
+// function clearNumbersTableBody() {
+//   // clear table body
+//   numbersTableBodyEl.innerText = "";
+//   numbersTableBodyEl.innerHTML = "";
+// }
+
+function clearSummaryTableBody() {
+  // clear table body
+  summaryTableBodyEl.innerText = "";
+  summaryTableBodyEl.innerHTML = "";
+}
+
+function clearNumbersGraph() {
+  // clear table body
+  graphEl.innerText = "";
+  graphEl.innerHTML = "";
+}
+
+// function populateNumbersTable(respObject) {
+//   // set the state name from response
+//   const stateName = respObject["state"];
+//   stateNameEl.innerText = stateName;
+//   dateLabelEl.innerText = "Date";
+//   numbersLabelEl.innerText = "New Cases";
+
+//   const payload = respObject["payload"];
+
+//   for (key in payload) {
+//     const val = payload[key];
+//     let row = document.createElement("tr");
+//     let dateEl = document.createElement("td");
+//     let numberEl = document.createElement("td");
+//     dateEl.innerText = key;
+//     numberEl.innerText = payload[key];
+
+//     row.append(dateEl);
+//     row.append(numberEl);
+//     numbersTableBodyEl.appendChild(row);
+//   }
+// }
+
+function populateSummaryTable(respObject) {
   // set the state name from response
   const stateName = respObject["state"];
   stateNameEl.innerText = stateName;
-  dateLabelEl.innerText = "Date";
-  numbersLabelEl.innerText = "New Cases";
+  categoryLabelEl.innerText = "Category";
+  totalLabelEl.innerText = "Total";
+  newLabelEl.innerText = "New";
 
   const payload = respObject["payload"];
 
   for (key in payload) {
     const val = payload[key];
     let row = document.createElement("tr");
-    let dateEl = document.createElement("td");
-    let numberEl = document.createElement("td");
-    dateEl.innerText = key;
-    numberEl.innerText = payload[key];
+    let categoryEl = document.createElement("td");
+    let totalEl = document.createElement("td");
+    let newEl = document.createElement("td");
 
-    row.append(dateEl);
-    row.append(numberEl);
-    numbersTableBodyEl.appendChild(row);
+    // Set category table item
+    categoryEl.innerText = key;
+
+    numbers = payload[key];
+    for (numkey in numbers) {
+      totalEl.innerText = numkey;
+      newEl.innerText = numbers[numkey];
+    }
+
+    row.append(categoryEl);
+    row.append(totalEl);
+    row.append(newEl);
+
+    summaryTableBodyEl.appendChild(row);
   }
 }
 
