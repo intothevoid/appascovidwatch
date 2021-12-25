@@ -81,26 +81,16 @@ class CovidScraper:
     def _get_summary(self, rsp):
         summary = {}
 
-        category_total = [
-            "New Cases",
-            "Cases",
-            "Doses",
-            "Tests",
-            "Hospitalised",
-            "ICU",
-            "Deaths",
-            "Active",
-            "Last Updated",
-        ]
         summary_table = rsp.html.find("table.DAILY-SUMMARY")
+        cat_col = summary_table[0].find("td.COL1.CATEGORY")
         total_col = summary_table[0].find("td.COL2.TOTAL")
         net_col = summary_table[0].find("td.COL4.NET")
-        data = zip(category_total, total_col, net_col)
+        data = zip(cat_col, total_col, net_col)
 
         for item in data:
-            category = item[0]  # This is a string
-            total_cnt = item[1].text  # This is type Element
-            new_cnt = item[2].text  # This is type Element
+            category = item[0].text  # Category
+            total_cnt = item[1].text  # Total
+            new_cnt = item[2].text  # New
             summary[category] = {total_cnt: new_cnt}
 
         return summary
@@ -108,5 +98,5 @@ class CovidScraper:
 
 if __name__ == "__main__":
     scraper = CovidScraper()
-    print(scraper.get_covid_numbers("sa"))
     print(scraper.get_summary("sa"))
+    print(scraper.get_covid_numbers("sa"))
