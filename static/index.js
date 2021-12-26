@@ -36,8 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // register button clicks
   registerListeners();
 
-  // load SA values by default
-  loadSADetails();
+  // load NSW values by default
+  loadNSWDetails();
 });
 
 function registerListeners() {
