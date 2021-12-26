@@ -34,14 +34,14 @@ covscrape = CovidScraper()
 
 # State wise numbers
 @app.get("/numbers/{state}")
-async def get_numbers(state):
-    return covscrape.get_covid_numbers(state)
+async def get_state_numbers(state):
+    return covscrape.get_state_covid_numbers(state)
 
 
 # State wise summary
 @app.get("/summary/{state}")
-async def get_summary(state):
-    return covscrape.get_summary(state)
+async def get_state_summary(state):
+    return covscrape.get_state_summary(state)
 
 
 # Main index page

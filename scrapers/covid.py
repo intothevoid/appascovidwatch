@@ -11,14 +11,15 @@ STATES = {
     "tas": "Tasmania",
     "nt": "Northern Territory",
     "act": "Australian Capital Territory",
+    "all": "All States",
 }
 
 
 class CovidScraper:
-    def get_covid_numbers(self, state: str, details: bool = False):
+    def get_state_covid_numbers(self, state: str, details: bool = False):
         retval = {}
         state = state or "sa"  # default to sa
-        retval["state"] = STATES[state]
+        retval["state"] = STATES.get(state)
 
         try:
             # Start HTML session and begin scraping BASEURL
@@ -33,14 +34,14 @@ class CovidScraper:
                 return retval
 
             # Extract numbers
-            retval["payload"] = self._get_payload(resp)
+            retval["payload"] = self._get_state_payload(resp)
             return retval
 
         except Exception as exc:
             retval["exception"] = exc
             return retval
 
-    def _get_payload(self, rsp):
+    def _get_state_payload(self, rsp):
         payload = {}
         cases = rsp.html.find("section.DAILY-CASES.STD-3")
         dates = cases[0].find("td.COL1.DATE")
@@ -52,11 +53,11 @@ class CovidScraper:
 
         return payload
 
-    def get_summary(self, state: str):
+    def get_state_summary(self, state: str):
         retval = {}
 
         state = state or "sa"  # default to sa
-        retval["state"] = STATES[state]
+        retval["state"] = STATES.get(state)
 
         try:
             # Start HTML session and begin scraping BASEURL
@@ -71,14 +72,14 @@ class CovidScraper:
                 return retval
 
             # Extract numbers
-            retval["payload"] = self._get_summary(resp)
+            retval["payload"] = self._get_state_summary(resp)
             return retval
 
         except Exception as exc:
             retval["exception"] = exc
             return retval
 
-    def _get_summary(self, rsp):
+    def _get_state_summary(self, rsp):
         summary = {}
 
         summary_table = rsp.html.find("table.DAILY-SUMMARY")
@@ -98,5 +99,5 @@ class CovidScraper:
 
 if __name__ == "__main__":
     scraper = CovidScraper()
-    print(scraper.get_summary("sa"))
-    print(scraper.get_covid_numbers("sa"))
+    print(scraper.get_state_summary("sa"))
+    print(scraper.get_state_covid_numbers("sa"))
