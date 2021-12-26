@@ -1,10 +1,10 @@
 // base url
-// let numbersBaseURL = `https://appascovidwatch.herokuapp.com/numbers`;
-// let summaryBaseURL = `https://appascovidwatch.herokuapp.com/summary`;
+let numbersBaseURL = `https://appascovidwatch.herokuapp.com/numbers`;
+let summaryBaseURL = `https://appascovidwatch.herokuapp.com/summary`;
 
 // For local testing
-let numbersBaseURL = `http://127.0.0.1:8000/numbers`;
-let summaryBaseURL = `http://127.0.0.1:8000/summary`;
+// let numbersBaseURL = `http://127.0.0.1:8000/numbers`;
+// let summaryBaseURL = `http://127.0.0.1:8000/summary`;
 
 // elements
 let saEl = document.getElementById("saBtn");
@@ -53,6 +53,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // load australia values by default
   loadAustraliaDetails();
+
+  // load south australia values by default
+  loadSADetails();
 });
 
 function registerListeners() {
@@ -309,10 +312,11 @@ function populateWorldSummaryTable(respObject) {
   worldDeathsTotalLabelEl.innerText = "Deaths";
   worldDeathsNewLabelEl.innerText = "New";
 
-  // const payload = respObject.values("payload");
+  // const payload = respObject["payload"];
   const summary = respObject["payload"]["summary"];
   const deaths = respObject["payload"]["deaths"];
 
+  // Populate cases
   for (key in summary) {
     const val = summary[key];
     let row = document.createElement("tr");
@@ -329,24 +333,30 @@ function populateWorldSummaryTable(respObject) {
       newEl.innerText = numbers[numkey];
     }
 
-    // Populate cases
     row.append(countryEl);
     row.append(totalEl);
     row.append(newEl);
 
-    // for (key in deaths) {
-    //   const val = summary[key];
-    //   let deathsTotalEl = document.createElement("td");
-    //   let deathsNewEl = document.createElement("td");
-
-    //   numbers = deaths[key];
-    //   for (numkey in numbers) {
-    //     deathsTotalEl.innerText = numkey;
-    //     deathsNewEl.innerText = numbers[numkey];
-    //   }
-    // }
-
     worldSummaryTableBodyEl.appendChild(row);
+  }
+
+  // Populate deaths
+  let index = 1;
+  for (key in deaths) {
+    const val = deaths[key];
+    let deathsTotalEl = document.createElement("td");
+    let deathsNewEl = document.createElement("td");
+
+    numbers = deaths[key];
+    for (numkey in numbers) {
+      deathsTotalEl.innerText = numkey;
+      deathsNewEl.innerText = numbers[numkey];
+    }
+
+    let row = worldSummaryTableEl.rows[index++];
+
+    row.append(deathsTotalEl);
+    row.append(deathsNewEl);
   }
 }
 
