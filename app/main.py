@@ -38,6 +38,12 @@ async def get_state_numbers(state):
     return covscrape.get_state_covid_numbers(state)
 
 
+# Worldwide summary
+@app.get("/summary/world")
+async def get_world_summary():
+    return covscrape.get_worldwide_summary()
+
+
 # State wise summary
 @app.get("/summary/{state}")
 async def get_state_summary(state):
