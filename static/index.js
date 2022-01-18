@@ -51,6 +51,10 @@ let australiaNameEl = document.getElementById("australiaName");
 let worldNameEl = document.getElementById("worldName");
 let worldDeathsNameEl = document.getElementById("worldDeathsName");
 let graphEl = document.getElementById("graphtest");
+let lastUpdatedEl = document.getElementById("lastUpdated");
+
+// other global variables
+let casesDate = "";
 
 document.addEventListener("DOMContentLoaded", function () {
   // register button clicks
@@ -82,7 +86,18 @@ async function loadWorldDetails() {
   worldDeathsNameEl.innerText = "Appa thinking...";
   let sumRespObj = await loadWorldSummary();
   if (typeof sumRespObj !== "undefined") {
+    // Set last updated stamp
+    lastUpdatedEl.innerText =
+      sumRespObj["payload"]["time_info"]["last_updated"];
+
+    // Set case date
+    casesDate = "(" + sumRespObj["payload"]["time_info"]["cases_date"] + ")";
+
     populateWorldSummaryTable(sumRespObj);
+  } else {
+    // Clear out labels
+    lastUpdatedEl.innerText = "Last Updated: N/A";
+    casesDate = "";
   }
 }
 
@@ -285,7 +300,7 @@ function clearNumbersGraph() {
 
 function populateSummaryTable(respObject) {
   // set the state name from response
-  const stateName = respObject["state"] + " Cases";
+  const stateName = respObject["state"] + " Cases " + casesDate;
   stateNameEl.innerText = stateName;
   categoryLabelEl.innerText = "Category";
   totalLabelEl.innerText = "Total";
@@ -319,7 +334,7 @@ function populateSummaryTable(respObject) {
 
 function populateAusSummaryTable(respObject) {
   // set the state name from response
-  const ausName = respObject["state"] + " Cases";
+  const ausName = respObject["state"] + " Cases " + casesDate;
   australiaNameEl.innerText = ausName;
   ausStateLabelEl.innerText = "State";
   ausTotalLabelEl.innerText = "Total";
@@ -353,13 +368,13 @@ function populateAusSummaryTable(respObject) {
 
 function populateWorldSummaryTable(respObject) {
   // Cases
-  worldNameEl.innerText = "Worldwide Cases";
+  worldNameEl.innerText = "Worldwide Cases " + casesDate;
   worldCountryLabelEl.innerText = "Country";
   worldTotalLabelEl.innerText = "Cases";
   worldNewLabelEl.innerText = "New";
 
   //Deaths
-  worldDeathsNameEl.innerText = "Worldwide Deaths";
+  worldDeathsNameEl.innerText = "Worldwide Deaths " + casesDate;
   worldDeathsCountryLabelEl.innerText = "Country";
   worldDeathsTotalLabelEl.innerText = "Deaths";
   worldDeathsNewLabelEl.innerText = "New";
