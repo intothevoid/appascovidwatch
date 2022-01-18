@@ -285,7 +285,7 @@ function clearNumbersGraph() {
 
 function populateSummaryTable(respObject) {
   // set the state name from response
-  const stateName = respObject["state"];
+  const stateName = respObject["state"] + " Cases";
   stateNameEl.innerText = stateName;
   categoryLabelEl.innerText = "Category";
   totalLabelEl.innerText = "Total";
@@ -319,7 +319,7 @@ function populateSummaryTable(respObject) {
 
 function populateAusSummaryTable(respObject) {
   // set the state name from response
-  const ausName = respObject["state"];
+  const ausName = respObject["state"] + " Cases";
   australiaNameEl.innerText = ausName;
   ausStateLabelEl.innerText = "State";
   ausTotalLabelEl.innerText = "Total";
