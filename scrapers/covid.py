@@ -141,6 +141,7 @@ class CovidScraper:
             payload = {}
             payload["summary"] = self._get_worldwide_cases_summary(resp)
             payload["deaths"] = self._get_worldwide_deaths_summary(resp)
+            payload["time_info"] = self._get_time_info(resp)
             retval["payload"] = payload
 
             return retval
@@ -182,6 +183,18 @@ class CovidScraper:
             summary[country] = {deaths_cnt: new_cnt}
 
         return summary
+
+    def _get_time_info(self, rsp):
+        time_info = {}
+
+        last_updated = rsp.html.find("td.LAST_UPDATED")
+        cases_table = rsp.html.find("section.CASES-WORLDWIDE.STD-2")
+        cases_date = cases_table[0].find("h3")
+
+        time_info["last_updated"] = last_updated[0].full_text
+        time_info["cases_date"] = cases_date[0].text
+
+        return time_info
 
 
 if __name__ == "__main__":
