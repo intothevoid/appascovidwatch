@@ -21,6 +21,13 @@ let worldSummaryTableBodyEl = document.getElementById("worldSummaryTableBody");
 let worldCountryLabelEl = document.getElementById("worldCountryLabel");
 let worldTotalLabelEl = document.getElementById("worldTotalLabel");
 let worldNewLabelEl = document.getElementById("worldNewLabel");
+
+// worldwide deaths table
+let worldDeathsTableEl = document.getElementById("worldDeathsTable");
+let worldDeathsTableBodyEl = document.getElementById("worldDeathsTableBody");
+let worldDeathsCountryLabelEl = document.getElementById(
+  "worldDeathsCountryLabel"
+);
 let worldDeathsTotalLabelEl = document.getElementById("worldDeathsTotalLabel");
 let worldDeathsNewLabelEl = document.getElementById("worldDeathsNewLabel");
 
@@ -42,6 +49,7 @@ let newLabelEl = document.getElementById("newLabel");
 let stateNameEl = document.getElementById("stateName");
 let australiaNameEl = document.getElementById("australiaName");
 let worldNameEl = document.getElementById("worldName");
+let worldDeathsNameEl = document.getElementById("worldDeathsName");
 let graphEl = document.getElementById("graphtest");
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -71,15 +79,20 @@ function registerListeners() {
 async function loadWorldDetails() {
   console.log("Loading World details...");
   worldNameEl.innerText = "Appa thinking...";
+  worldDeathsNameEl.innerText = "Appa thinking...";
   let sumRespObj = await loadWorldSummary();
-  populateWorldSummaryTable(sumRespObj);
+  if (typeof sumRespObj !== "undefined") {
+    populateWorldSummaryTable(sumRespObj);
+  }
 }
 
 async function loadAustraliaDetails() {
   console.log("Loading Australia details...");
   australiaNameEl.innerText = "Appa thinking...";
   let sumRespObj = await loadSummary("all");
-  populateAusSummaryTable(sumRespObj);
+  if (typeof sumRespObj !== "undefined") {
+    populateAusSummaryTable(sumRespObj);
+  }
 }
 
 async function loadSADetails() {
@@ -87,8 +100,12 @@ async function loadSADetails() {
   stateNameEl.innerText = "Appa thinking...";
   let numRespObj = await loadNumbers("sa");
   let sumRespObj = await loadSummary("sa");
-  populateSummaryTable(sumRespObj);
-  populateNumbersBarGraph(numRespObj);
+  if (typeof sumRespObj !== "undefined") {
+    populateSummaryTable(sumRespObj);
+  }
+  if (typeof numRespObj !== "undefined") {
+    populateNumbersBarGraph(numRespObj);
+  }
 }
 
 async function loadWADetails() {
@@ -96,8 +113,12 @@ async function loadWADetails() {
   stateNameEl.innerText = "Appa thinking...";
   respObject = await loadNumbers("wa");
   let sumRespObj = await loadSummary("wa");
-  populateSummaryTable(sumRespObj);
-  populateNumbersBarGraph(respObject);
+  if (typeof sumRespObj !== "undefined") {
+    populateSummaryTable(sumRespObj);
+  }
+  if (typeof respObject !== "undefined") {
+    populateNumbersBarGraph(respObject);
+  }
 }
 
 async function loadVICDetails() {
@@ -105,8 +126,12 @@ async function loadVICDetails() {
   stateNameEl.innerText = "Appa thinking...";
   respObject = await loadNumbers("vic");
   let sumRespObj = await loadSummary("vic");
-  populateSummaryTable(sumRespObj);
-  populateNumbersBarGraph(respObject);
+  if (typeof sumRespObj !== "undefined") {
+    populateSummaryTable(sumRespObj);
+  }
+  if (typeof respObject !== "undefined") {
+    populateNumbersBarGraph(respObject);
+  }
 }
 
 async function loadNSWDetails() {
@@ -114,8 +139,12 @@ async function loadNSWDetails() {
   stateNameEl.innerText = "Appa thinking...";
   respObject = await loadNumbers("nsw");
   let sumRespObj = await loadSummary("nsw");
-  populateSummaryTable(sumRespObj);
-  populateNumbersBarGraph(respObject);
+  if (typeof sumRespObj !== "undefined") {
+    populateSummaryTable(sumRespObj);
+  }
+  if (typeof respObject !== "undefined") {
+    populateNumbersBarGraph(respObject);
+  }
 }
 
 async function loadTASDetails() {
@@ -123,8 +152,12 @@ async function loadTASDetails() {
   stateNameEl.innerText = "Appa thinking...";
   respObject = await loadNumbers("tas");
   let sumRespObj = await loadSummary("tas");
-  populateSummaryTable(sumRespObj);
-  populateNumbersBarGraph(respObject);
+  if (typeof sumRespObj !== "undefined") {
+    populateSummaryTable(sumRespObj);
+  }
+  if (typeof respObject !== "undefined") {
+    populateNumbersBarGraph(respObject);
+  }
 }
 
 async function loadNTDetails() {
@@ -132,16 +165,24 @@ async function loadNTDetails() {
   stateNameEl.innerText = "Appa thinking...";
   respObject = await loadNumbers("nt");
   let sumRespObj = await loadSummary("nt");
-  populateSummaryTable(sumRespObj);
-  populateNumbersBarGraph(respObject);
+  if (typeof sumRespObj !== "undefined") {
+    populateSummaryTable(sumRespObj);
+  }
+  if (typeof respObject !== "undefined") {
+    populateNumbersBarGraph(respObject);
+  }
 }
 
 async function loadACTDetails() {
   console.log("ACT was clicked!");
   respObject = await loadNumbers("act");
   let sumRespObj = await loadSummary("act");
-  populateSummaryTable(sumRespObj);
-  populateNumbersBarGraph(respObject);
+  if (typeof sumRespObj !== "undefined") {
+    populateSummaryTable(sumRespObj);
+  }
+  if (typeof respObject !== "undefined") {
+    populateNumbersBarGraph(respObject);
+  }
 }
 
 async function loadNumbers(state) {
@@ -174,6 +215,7 @@ async function loadWorldSummary() {
 
   // Start by clearing existing table's body
   clearWorldSummaryTableBody();
+  clearWorldDeathsTableBody();
 
   retVal = await fetch(`${summaryBaseURL}/world`, options)
     .then((response) => response.json())
@@ -215,6 +257,12 @@ function clearWorldSummaryTableBody() {
   // clear table body
   worldSummaryTableBodyEl.innerText = "";
   worldSummaryTableBodyEl.innerHTML = "";
+}
+
+function clearWorldDeathsTableBody() {
+  // clear table body
+  worldDeathsTableBodyEl.innerText = "";
+  worldDeathsTableBodyEl.innerHTML = "";
 }
 
 function clearSummaryTableBody() {
@@ -304,11 +352,15 @@ function populateAusSummaryTable(respObject) {
 }
 
 function populateWorldSummaryTable(respObject) {
-  // set the state name from response
-  worldNameEl.innerText = "Worldwide";
+  // Cases
+  worldNameEl.innerText = "Worldwide Cases";
   worldCountryLabelEl.innerText = "Country";
   worldTotalLabelEl.innerText = "Cases";
   worldNewLabelEl.innerText = "New";
+
+  //Deaths
+  worldDeathsNameEl.innerText = "Worldwide Deaths";
+  worldDeathsCountryLabelEl.innerText = "Country";
   worldDeathsTotalLabelEl.innerText = "Deaths";
   worldDeathsNewLabelEl.innerText = "New";
 
@@ -341,11 +393,15 @@ function populateWorldSummaryTable(respObject) {
   }
 
   // Populate deaths
-  let index = 1;
   for (key in deaths) {
     const val = deaths[key];
+    let row = document.createElement("tr");
+    let deathsCountryEl = document.createElement("td");
     let deathsTotalEl = document.createElement("td");
     let deathsNewEl = document.createElement("td");
+
+    // Set category table item
+    deathsCountryEl.innerText = key;
 
     numbers = deaths[key];
     for (numkey in numbers) {
@@ -353,10 +409,11 @@ function populateWorldSummaryTable(respObject) {
       deathsNewEl.innerText = numbers[numkey];
     }
 
-    let row = worldSummaryTableEl.rows[index++];
-
+    row.append(deathsCountryEl);
     row.append(deathsTotalEl);
     row.append(deathsNewEl);
+
+    worldDeathsTableBodyEl.appendChild(row);
   }
 }
 
