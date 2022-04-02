@@ -155,8 +155,8 @@ class CovidScraper:
 
         summary_table = rsp.html.find("table.CASES-WORLDWIDE")
         country_col = summary_table[0].find("td.COL1.COUNTRY")
-        total_col = summary_table[0].find("td.COL2.CASES")
-        net_col = summary_table[0].find("td.COL4.NET")
+        total_col = summary_table[0].find("td.COL3.CASES")
+        net_col = summary_table[0].find("td.COL4")
         data = zip(country_col, total_col, net_col)
 
         for item in data:
@@ -172,8 +172,8 @@ class CovidScraper:
 
         summary_table = rsp.html.find("table.DEATHS-WORLDWIDE")
         country_col = summary_table[0].find("td.COL1.COUNTRY")
-        deaths_col = summary_table[0].find("td.COL2.DEATHS")
-        net_col = summary_table[0].find("td.COL4.NET")
+        deaths_col = summary_table[0].find("td.COL3.DEATHS")
+        net_col = summary_table[0].find("td.COL4")
         data = zip(country_col, deaths_col, net_col)
 
         for item in data:
@@ -188,7 +188,7 @@ class CovidScraper:
         time_info = {}
 
         last_updated = rsp.html.find("td.LAST_UPDATED")
-        cases_table = rsp.html.find("section.CASES-WORLDWIDE.STD-2")
+        cases_table = rsp.html.find("section.CASES-WORLDWIDE")
         cases_date = cases_table[0].find("h3")
 
         time_info["last_updated"] = last_updated[0].full_text
