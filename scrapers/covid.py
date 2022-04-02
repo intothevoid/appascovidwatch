@@ -191,8 +191,11 @@ class CovidScraper:
         cases_table = rsp.html.find("section.CASES-WORLDWIDE")
         cases_date = cases_table[0].find("h3")
 
+        # strip out the date
+        date = cases_date[0].text.split("-")[0].strip()
+
         time_info["last_updated"] = last_updated[0].full_text
-        time_info["cases_date"] = cases_date[0].text
+        time_info["cases_date"] = date
 
         return time_info
 
