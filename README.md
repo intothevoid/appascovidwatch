@@ -7,6 +7,17 @@ Appa is a likeable character from the Netflix TV Show "Kim's Convenience Store"
 ### Live Demo
 A live demo of the webapp is available at https://appascovidwatch.karan.myds.me
 
+### Installation
+To build the image -
+```bash
+sudo ./scripts/build.sh
+```
+
+To deploy container -
+```bash
+sudo ./scripts/container.sh
+```
+
 ### Data Sources
 [John Hopkins University CSSE](https://github.com/CSSEGISandData/COVID-19)
 
