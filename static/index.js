@@ -1,6 +1,6 @@
 // base url
-let numbersBaseURL = `https://appascovidwatch.herokuapp.com/numbers`;
-let summaryBaseURL = `https://appascovidwatch.herokuapp.com/summary`;
+let numbersBaseURL = `https://appascovidwatch.karan.myds.me/numbers`;
+let summaryBaseURL = `https://appascovidwatch.karan.myds.me/summary`;
 
 // For local testing
 // let numbersBaseURL = `http://127.0.0.1:8000/numbers`;
@@ -203,7 +203,6 @@ async function loadACTDetails() {
 async function loadNumbers(state) {
   const options = {
     method: "GET",
-    mode: "no-cors",
     headers: { "Content-Type": "application/json" },
   };
 
@@ -224,7 +223,6 @@ async function loadNumbers(state) {
 async function loadWorldSummary() {
   const options = {
     method: "GET",
-    mode: "no-cors",
     headers: { "Content-Type": "application/json" },
   };
 
@@ -246,7 +244,6 @@ async function loadWorldSummary() {
 async function loadSummary(state) {
   const options = {
     method: "GET",
-    mode: "no-cors",
     headers: { "Content-Type": "application/json" },
   };
 

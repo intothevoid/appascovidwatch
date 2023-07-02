@@ -5,7 +5,7 @@ Appa's Covid Watch is an app to monitor live Covid numbers in Australia and arou
 Appa is a likeable character from the Netflix TV Show "Kim's Convenience Store"
 
 ### Live Demo
-A live demo of the webapp is available at https://appascovidwatch.herokuapp.com
+A live demo of the webapp is available at https://appascovidwatch.karan.myds.me
 
 ### Data Sources
 [John Hopkins University CSSE](https://github.com/CSSEGISandData/COVID-19)

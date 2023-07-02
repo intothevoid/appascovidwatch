@@ -8,8 +8,8 @@ from fastapi.middleware import Middleware
 
 # Origins for requests
 origins = [
-    "http://appascovidwatch.herokuapp.com",
-    "https://appascovidwatch.herokuapp.com",
+    "http://appascovidwatch.karan.myds.me",
+    "https://appascovidwatch.karan.myds.me",
     "http://localhost",
     "http://localhost:8000",
     "https://localhost:8000",
