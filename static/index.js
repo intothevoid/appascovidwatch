@@ -1,10 +1,10 @@
 // base url
-// let numbersBaseURL = `https://appascovidwatch.karan.myds.me/numbers`;
-// let summaryBaseURL = `https://appascovidwatch.karan.myds.me/summary`;
+let numbersBaseURL = `https://appascovidwatch.karan.myds.me/numbers`;
+let summaryBaseURL = `https://appascovidwatch.karan.myds.me/summary`;
 
 // For local testing
-let numbersBaseURL = `http://127.0.0.1:3180/numbers`;
-let summaryBaseURL = `http://127.0.0.1:3180/summary`;
+// let numbersBaseURL = `http://127.0.0.1:3180/numbers`;
+// let summaryBaseURL = `http://127.0.0.1:3180/summary`;
 
 // elements
 let saEl = document.getElementById("saBtn");
