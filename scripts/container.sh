@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker run -d --name appa --restart unless-stopped -p 8000:8000 appa
+docker run -d --name appa --restart unless-stopped -p 3180:3180 appa
